@@ -255,6 +255,7 @@ public class Login implements ActionListener {
           String cusPass = customers[i].getPassword();
           if (user.equals(cusName) && pass.equals(cusPass)) {
             new CustomerDashboard(drivers);
+            break;
           } else {
             JOptionPane.showMessageDialog(null, "Invalid User Name or Password!",
                 "Warning!",
