@@ -254,7 +254,8 @@ public class Login implements ActionListener {
           String cusName = customers[i].getName();
           String cusPass = customers[i].getPassword();
           if (user.equals(cusName) && pass.equals(cusPass)) {
-            new CustomerDashboard(drivers);
+            loginFrame.setVisible(false);
+            new CustomerDashboard(customers , drivers);
             break;
           } else {
             JOptionPane.showMessageDialog(null, "Invalid User Name or Password!",
@@ -272,8 +273,8 @@ public class Login implements ActionListener {
           if (user.equals(driName) && pass.equals(driPass)) {
             // customers[i].showCustomerDetails();
             loginFrame.setVisible(false);
-            new CustomerDashboard(drivers);
-            // new AdminDashboard(customers , drivers);
+            new CustomerDashboard(customers , drivers);
+
           }
         }
 

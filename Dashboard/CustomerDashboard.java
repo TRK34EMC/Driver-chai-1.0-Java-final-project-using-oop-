@@ -25,15 +25,15 @@ public class CustomerDashboard implements ActionListener {
   JComboBox<String> experience, carType;
   Driver[] searchResult = new Driver[100];
   Driver[] drivers = new Driver[100];
-  Customer[] customers = new Customer[1];
+  Customer[] customers = new Customer[100];
   // Driver hired;
   // Customer c;
   String[] carTypes = { "Sedan", "SUV", "Coupe", "Minivan", "Hatchback" };
   String[] driverExperience = { "1-3 years", "2-5 years", "5-10 years", "10-15 years" };
 
-  public CustomerDashboard(Driver[] drivers) // Customer c)
+  public CustomerDashboard(Customer[] customers , Driver[] drivers) // Customer c)
   {
-
+    this.customers = customers;
     this.drivers = drivers;
     dashboardFrame = new JFrame();
 
