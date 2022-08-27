@@ -16,25 +16,34 @@ import javax.swing.*;
 public class CustomerDashboard implements ActionListener {
 
   JFrame dashboardFrame;
-  JPanel customerPanel1, results, customerPanel2, searchResults, resultsp;
+  JPanel customerPanel1,  customerPanel2, searchResults, resultsp;
   JButton bSearchDriver, bCustomerLogout, bBackToCustomerPanel1, bHireDriver, b10, b9;
   JButton[] hireDriver = new JButton[100];
   JLabel customerPanelBackground, lCp1, lCp2, lCp3, lCp4, lCp5, lSp1, dName, dNamel, dExp, dExpl, poster1, poster2 , dRate ,dRatel;
-  boolean b;
   int flag = 0;
-  JComboBox<String> experience, carType;
+  JComboBox<String> experience, carType , dServiceHour;
+  JComboBox<String>[] serviceHour = new JComboBox[100];
+
   Driver[] searchResult = new Driver[100];
   Driver[] drivers = new Driver[100];
   Customer[] customers = new Customer[100];
-  // Driver hired;
-  // Customer c;
+  Connector[] connectors =  new Connector[500];
+  Customer authCus;
+  Driver hiredDri;
   String[] carTypes = { "Sedan", "SUV", "Coupe", "Minivan", "Hatchback" };
   String[] driverExperience = { "1-3 years", "2-5 years", "5-10 years", "10-15 years" };
+  String[] serviceHours = {"2 hours" ,  "3 Hours", "6 Hours", "8 hours", "10 hours" };
 
-  public CustomerDashboard(Customer[] customers , Driver[] drivers) // Customer c)
+  public CustomerDashboard(Customer[] customers , Driver[] drivers , Customer authCus , Connector[] connectors) // Customer c)
   {
+
     this.customers = customers;
     this.drivers = drivers;
+    this.authCus = authCus;
+    this.connectors = connectors;
+
+    System.out.println(authCus.getName());
+
     dashboardFrame = new JFrame();
 
     /////////// Customer Panel /////////////////
@@ -159,7 +168,6 @@ public class CustomerDashboard implements ActionListener {
     customerPanel2.setBackground(Color.gray);
     customerPanel2.setVisible(false);
 
-    // dashboardFrame.setIconImage(icon.getImage());
     dashboardFrame.add(customerPanel1);
     dashboardFrame.add(customerPanel2);
     dashboardFrame.setLayout(null);
@@ -217,6 +225,9 @@ public class CustomerDashboard implements ActionListener {
     bHireDriver.setBorderPainted(true);
     bHireDriver.setForeground(Color.WHITE);
 
+    dServiceHour = new JComboBox<>(serviceHours);
+    dServiceHour.setBounds(370, 34, 100, 20);
+
     dNamel = new JLabel("Name: ");
     dNamel.setBounds(5, 5, 80, 20);
     dNamel.setForeground(Color.BLACK);
@@ -242,6 +253,7 @@ public class CustomerDashboard implements ActionListener {
     dRate.setForeground(Color.BLACK);
 
     resultsp.add(bHireDriver);
+    resultsp.add(dServiceHour);
     resultsp.add(dNamel);
     resultsp.add(dName);
     resultsp.add(dExp);
@@ -250,25 +262,51 @@ public class CustomerDashboard implements ActionListener {
     resultsp.add(dRatel);
     resultsp.setLayout(null);
     resultsp.setBounds(10, 10 + posY, 580, 100);
-    resultsp.setBackground(Color.gray);
+    resultsp.setBackground(new Color(244,200,85));
     resultsp.setVisible(true);
 
     searchResults.add(resultsp);
 
     hireDriver[gap] = bHireDriver;
+    serviceHour[gap] = dServiceHour;
 
   }
 
   public void actionPerformed(ActionEvent e) {
-    for (int i = 0; i < hireDriver.length; i++) {
-      if (e.getSource() == hireDriver[i]) {
 
+    for (int i = 0; i < hireDriver.length; i++) {
+      if (e.getSource() == hireDriver[i])
+      {
+        String hourss = serviceHour[i].getSelectedItem().toString();
+        int cunt  = 0;
+        Driver hiredDri = searchResult[i];
         JOptionPane.showMessageDialog(null, "Driver successfully Hired!", "Success!",
         JOptionPane.WARNING_MESSAGE);
-
+        System.out.println(authCus.getName());
+        System.out.println(hiredDri.getName());
+        for (int j = 0; j < connectors.length; j++) {
+        if(connectors[j] == null)
+        {
+          connectors[j] =  new Connector(authCus , hiredDri , hourss);
+          //this.connectors[j] = connectors;
+          cunt++;
+          break;
+        }
       }
     }
+  }
 
+        if(cunt >= 1)
+        {
+
+          System.out.println("new connector obj added");
+
+        }
+        if(cunt == 0)
+        {
+          System.out.println("new connector obj NOT added");
+        }
+   
     if (e.getSource() == bSearchDriver) {
 
       customerPanel2.setVisible(true);
@@ -299,7 +337,7 @@ public class CustomerDashboard implements ActionListener {
     if (e.getSource() == bCustomerLogout) {
 
       dashboardFrame.setVisible(false);
-      new Login(customers, drivers);
+      new Login(customers, drivers ,connectors);
 
     }
 

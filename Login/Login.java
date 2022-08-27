@@ -7,11 +7,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.Font;
 import javax.swing.*;
-// import Images.*;
+
 import User.*;
 import Dashboard.*;
 import Dashboard.CustomerDashboard;
 import Dashboard.AdminDashboard;
+import Dashboard.Connector;
 
 public class Login implements ActionListener {
   JFrame loginFrame;
@@ -24,13 +25,36 @@ public class Login implements ActionListener {
   JButton b1, b2, b3, b4, b5; // login dashboard
   JButton b6, b7, b8, b9, b10; // admin Login
   int count = 1;
+  Customer authCus;
   Customer[] customers = new Customer[100];
   Driver[] drivers = new Driver[100];
+  Connector[] connectors = new Connector[500];
 
-  public Login(Customer[] customers, Driver[] drivers) {
+  public Login(Customer[] customers, Driver[] drivers , Connector[] connectors)
+  {
 
     this.customers = customers;
     this.drivers = drivers;
+    this.connectors = connectors;
+
+    for(int i = 0 ; i<connectors.length ; i++)
+    {
+
+      if(connectors[i] != null)
+      {
+        Driver d = connectors[i].getHiredDri();
+        String dDName = d.getName();
+        System.out.println(dDName);
+        Customer c = connectors[i].getAuthCus();
+        String cCName = c.getName();
+        System.out.println(cCName);
+        String hour = connectors[i].getHours();
+        System.out.println(hour);
+
+      }
+
+
+    }
 
     loginFrame = new JFrame();
 
@@ -242,41 +266,43 @@ public class Login implements ActionListener {
       String user = tf1.getText();
       String pass = p1.getText();
       int flag = 0;
-
       for (int i = 0; i < customers.length; i++) {
-        // if (customers[0] == null) {
-        // JOptionPane.showMessageDialog(null, "Invalid User Name or Password!",
-        // "Warning!",
-        // JOptionPane.WARNING_MESSAGE);
-        // break;
-        // }
         if (customers[i] != null) {
           String cusName = customers[i].getName();
           String cusPass = customers[i].getPassword();
           if (user.equals(cusName) && pass.equals(cusPass)) {
+            Customer authCus = customers[i];
             loginFrame.setVisible(false);
-            new CustomerDashboard(customers , drivers);
+            new CustomerDashboard(customers , drivers , authCus , connectors);
+            flag++;
             break;
-          } else {
-            JOptionPane.showMessageDialog(null, "Invalid User Name or Password!",
-                "Warning!",
-                JOptionPane.WARNING_MESSAGE);
           }
         }
       }
+
 
       for (int i = 0; i < drivers.length; i++) {
 
         if (drivers[i] != null) {
           String driName = drivers[i].getName();
           String driPass = drivers[i].getPassword();
-          if (user.equals(driName) && pass.equals(driPass)) {
-            // customers[i].showCustomerDetails();
+          if (user.equals(driName) && pass.equals(driPass))
+          {
+
             loginFrame.setVisible(false);
-            new CustomerDashboard(customers , drivers);
+            new DriverDashboard(drivers , connectors);
+            flag++;
+            break;
 
           }
         }
+      }
+      if(flag == 0)
+      {
+
+        JOptionPane.showMessageDialog(null, "Invalid User Name or Password!",
+            "Warning!",
+        JOptionPane.WARNING_MESSAGE);
 
       }
     }

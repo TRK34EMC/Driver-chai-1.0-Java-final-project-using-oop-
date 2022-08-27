@@ -21,6 +21,7 @@ public final class AdminDashboard implements ActionListener {
   JButton manageCus , manageDri , back1 ,back2, remove1 , remove2 , b9 , b10;
   Driver[] drivers = new Driver[100];
   Customer[] customers = new Customer[100];
+  Connector[] connectors =  new Connector[100];
 
 public AdminDashboard(Customer[] customers , Driver[] drivers)
 {
@@ -361,7 +362,7 @@ public void actionPerformed(ActionEvent e)
   {
 
     aDashboardFrame.setVisible(false);
-    new Login(customers , drivers);
+    new Login(customers , drivers , connectors);
 
 
   }
@@ -406,6 +407,8 @@ if(e.getSource() == manageDri)
         driList(drivers[i] , i);
       }
   }
+
+
 }
 
 if(e.getSource() == remove1)

@@ -17,9 +17,7 @@ public class Driver extends User {
   String carType;
   String rate;
 
-  public Driver(String name, String phoneNumber, String emailAddress, String password, String nidNumber,
-      String lisenceNumber,
-      String yearsExp, String carType, String rate) {
+  public Driver(String name, String phoneNumber, String emailAddress, String password, String nidNumber, String lisenceNumber, String yearsExp, String carType, String rate) {
     super(name, phoneNumber, emailAddress, password);
     this.name = name;
     this.phoneNumber = phoneNumber;

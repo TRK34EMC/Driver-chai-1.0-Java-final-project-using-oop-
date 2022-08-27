@@ -12,8 +12,9 @@ public class Start {
 
     Customer[] blankc = new Customer[1];
     Driver[] blankd = new Driver[100];
+    Connector[] blankcon = new Connector[1];
 
-    new Login(blankc, blankd);
+    new Login(blankc, blankd , blankcon);
 
   }
 }

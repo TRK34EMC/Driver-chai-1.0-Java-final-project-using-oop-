@@ -14,11 +14,12 @@ import javax.swing.*;
 
 import User.Driver;
 import User.Customer;
+import Dashboard.Connector;
 
 public class Signup implements ActionListener {
   Driver[] drivers = new Driver[100];
   Customer[] customers = new Customer[100];
-
+  Connector[] blankcon = new Connector[1];
   JFrame signupFrame;
   JPanel signupPanel, customerSignUp, driverSignUp, signupComplete;
   JLabel l1, l2, l3, l4, l19, poster1, poster2, poster3, poster4;
@@ -468,8 +469,7 @@ public class Signup implements ActionListener {
       if (dname.length() >= 3 && dphoneNo.length() >= 3 && demail.length() >= 3 && dnid.length() >= 3
           && dlicense.length() >= 3 && drate.length() >= 1 && dpass.equals(dconfPass)) {
         try {
-          Driver d = new Driver(dname, dphoneNo, demail, dpass, dnid, dlicense, dexp,
-              dtype, drate);
+          Driver d = new Driver(dname, dphoneNo, demail, dpass, dnid, dlicense, dexp, dtype, drate);
           addDriver(d);
           driverSignUp.setVisible(false);
           signupComplete.setVisible(true);
@@ -502,7 +502,7 @@ public class Signup implements ActionListener {
     if (e.getSource() == returnToLogin) {
       if (e.getSource() == returnToLogin) {
         signupFrame.setVisible(false);
-        new Login(customers, drivers);
+        new Login(customers, drivers , blankcon);
 
       }
     }
